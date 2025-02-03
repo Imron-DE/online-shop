@@ -21,13 +21,14 @@ function Header({ image, title, link = "#" }) {
   );
 }
 
-function Body({ title, desc, link = "#" }) {
+function Body({ title, desc, showDesc = true, link = "#" }) {
   return (
     <div className="px-5 pb-5 h-40 min-h-[160px]">
       <Link href={link}>
         <h3 className="text-3xl font-bold text-gray-900 line-clamp-2 min-h-[75px]">{title}</h3>
-        <p className="mt-3 text-slate-700 text-base text-justify  line-clamp-4 ">{desc}</p>
       </Link>
+
+      {showDesc && desc ? <p className="mt-3 text-slate-700 text-base text-justify line-clamp-4">{desc}</p> : null}
     </div>
   );
 }
@@ -37,7 +38,6 @@ function Footer({ price, rating, product }) {
 
   const handleAddToCart = () => {
     if (product && product.id) {
-      console.log("Produk yang akan ditambahkan ke keranjang:", product);
       dispatch(addToCart(product));
     } else {
       console.error("Produk tidak valid:", product);

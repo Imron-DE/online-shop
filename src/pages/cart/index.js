@@ -5,13 +5,17 @@ import Link from "next/link";
 import Button from "@/components/atoms/Button"; // Sesuaikan path
 import Layout from "@/components/templates/layout"; // Sesuaikan path
 import { addToCart, removeFromCart, setCartData } from "@/redux/Cart/cartSlice"; // Sesuaikan path
+import { useRouter } from "next/router";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.data); // Mengambil data cart dari Redux store
+  const router = useRouter();
+
+  // Tambahkan state showModal untuk mengontrol modal
+  const [showModal, setShowModal] = useState(false);
 
   // Menghitung total harga
-  // const totalPrice = cart.reduce((total, item) => total + item.price * item.qty, 0);
   const totalPrice = useMemo(() => {
     return cart.reduce((total, item) => total + item.price * item.qty, 0);
   }, [cart]);
@@ -39,9 +43,29 @@ const CartPage = () => {
     dispatch(removeFromCart(productId));
   };
 
+  useEffect(() => {
+    // Ambil token dari cookies atau localStorage
+    const userToken = localStorage.getItem("token");
+
+    // Jika token tidak ada, arahkan pengguna ke halaman login
+    if (!userToken) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  // Fungsi untuk menangani checkout dan menampilkan modal
+  const handleCheckout = () => {
+    setShowModal(true); // Menampilkan modal setelah checkout
+  };
+
+  // Fungsi untuk menutup modal
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <Layout>
-      <div className="container mx-auto p-6 mt-32 mb-36">
+      <div className="container mx-auto p-6 mt-20 mb-96">
         <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
         {cart.length === 0 ? (
           <p className="text-gray-500">
@@ -86,11 +110,34 @@ const CartPage = () => {
             ))}
             <div className="text-right mt-6">
               <h2 className="text-2xl font-semibold">Total: Rp {totalPrice.toLocaleString()}</h2>
-              <Button buttonClassname="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg">Checkout</Button>
+              <Button
+                buttonClassname="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg"
+                onClick={handleCheckout} // Menambahkan aksi checkout
+              >
+                Checkout
+              </Button>
             </div>
           </div>
         )}
       </div>
+
+      {/* Modal Checkout */}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-semibold">Checkout Successful</h2>
+            <p className="mt-4 text-gray-500">Your order has been placed successfully!</p>
+            <div className="mt-6 flex justify-end">
+              <Button
+                buttonClassname="px-6 py-2 bg-blue-500 text-white rounded-lg"
+                onClick={closeModal} // Menutup modal
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

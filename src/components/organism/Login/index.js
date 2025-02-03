@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 const Login = () => {
   const [errorLogin, setErrorLogin] = useState(null);
-  const [showPassword, setShowPassword] = useState(false); // State untuk mengatur visibilitas password
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function HandleLogin(event) {

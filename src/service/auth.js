@@ -5,6 +5,14 @@ const api = process.env.NEXT_PUBLIC_API;
 export const login = async (payload) => {
   try {
     const response = await axios.post(`${api}/auth/login`, payload);
+
+    // Menyimpan token di localStorage setelah login berhasil
+    localStorage.setItem("token", response.data.token);
+
+    // Menyimpan data pengguna di localStorage
+    const currentUser = getCurrentUser(response.data.token);
+    localStorage.setItem("user", JSON.stringify(currentUser));
+
     return { status: true, token: response.data.token };
   } catch (error) {
     console.log("Login failed", error);

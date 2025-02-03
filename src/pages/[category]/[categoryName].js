@@ -37,9 +37,8 @@ const ProductCategoryPage = () => {
     <Layout>
       <ShopCategory category={decodedCategory} />
       <div className="flex px-5 py-8">
-        <div className="flex flex-col">
-          <h1 className="text-3xl font-bold text-blue-500 uppercase mb-4">Products {decodedCategory}</h1>
-          <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col w-full justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             {products?.map((item) => (
               <CardProduct key={item.id}>
                 <CardProduct.Header image={item.image} link={`/product/${item.id}`} />
