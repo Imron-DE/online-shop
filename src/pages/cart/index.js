@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +11,10 @@ const CartPage = () => {
   const cart = useSelector((state) => state.cart.data); // Mengambil data cart dari Redux store
 
   // Menghitung total harga
-  const totalPrice = cart.reduce((total, item) => total + item.price * item.qty, 0);
+  // const totalPrice = cart.reduce((total, item) => total + item.price * item.qty, 0);
+  const totalPrice = useMemo(() => {
+    return cart.reduce((total, item) => total + item.price * item.qty, 0);
+  }, [cart]);
 
   // Menyimpan cart ke localStorage saat cart berubah
   useEffect(() => {

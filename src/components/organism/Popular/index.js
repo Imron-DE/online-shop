@@ -36,7 +36,7 @@ const Popular = () => {
           <CardProduct key={item.id}>
             <CardProduct.Header image={item.image} link={`/product/${item.id}`} />
             <CardProduct.Body title={item.title} desc={item.description} link={`/product/${item.id}`} />
-            <CardProduct.Footer price={item.price} id={item.id} rating={item.rating} />
+            <CardProduct.Footer price={item.price} id={item.id} rating={item.rating} product={item} />
           </CardProduct>
         ))}
       </div>

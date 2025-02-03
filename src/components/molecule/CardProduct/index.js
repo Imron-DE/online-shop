@@ -53,7 +53,7 @@ function Footer({ price, rating, product }) {
         <span className="ml-2 text-gray-500">({rating.count} reviews)</span>
       </div>
 
-      <Button buttonClassname="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-500 hover:via-orange-600 hover:to-yellow-600 text-white w-full mt-4" onClick={handleAddToCart}>
+      <Button buttonClassname="bg-gradient-to-r from-blue-500 via-teal-400 to-cyan-300 hover:from-red-500 hover:via-orange-600 hover:to-yellow-600 text-white w-full mt-4" onClick={handleAddToCart}>
         Beli
       </Button>
     </div>
